@@ -1,8 +1,13 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PatientController;
+use App\Http\Controllers\MedicalRecordController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::apiResource('patients', PatientController::class);
+Route::apiResource('records', MedicalRecordController::class);
+Route::get('patients/{id}/records', [PatientController::class, 'records']);
+
+
+
+

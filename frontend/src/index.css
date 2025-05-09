@@ -5,9 +5,52 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f8f9fa;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Add some spacing to the main container */
+.container {
+  margin-top: 1rem;
+}
+
+/* Improve card shadows */
+.card {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Make table hover effect more subtle */
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* Make form labels bolder */
+.form-label {
+  font-weight: 500;
+}
+
+/* Improve button transitions */
+.btn {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Improve navbar appearance */
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* Add some spacing to the footer */
+footer {
+  margin-top: 2rem;
+  border-top: 1px solid #e9ecef;
 }
