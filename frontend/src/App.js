@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Button, Navbar, Nav } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Navbar,
+  Nav
+} from 'react-bootstrap';
+import { Plus } from 'react-bootstrap-icons';
 import PatientList from './components/Patients/PatientList';
 import PatientForm from './components/Patients/PatientForm';
 import MedicalRecordList from './components/Records/MedicalRecordList';
@@ -21,13 +29,12 @@ function App() {
   const resetRecordForm = () => {
     setShowRecordForm(false);
     setEditingRecord(null);
-    // Trigger a refresh of the records list
     setRefreshRecords(prev => prev + 1);
   };
 
   return (
     <>
-      <Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
+      <Navbar bg="dark" variant="dark" expand="lg" className="mb-4 shadow-sm">
         <Container>
           <Navbar.Brand href="#home">Mapatay Medical Clinic</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -58,12 +65,16 @@ function App() {
                 <Row className="mb-4">
                   <Col>
                     <div className="d-flex justify-content-between align-items-center">
-                      <h2>Patient Management</h2>
-                      <Button 
-                        variant="success" 
+                      <div>
+                        <h2 className="fw-bold mb-1">Patient Management</h2>
+                        <p className="text-muted mb-0">View and manage all patients</p>
+                      </div>
+                      <Button
+                        variant="primary"
+                        className="d-flex align-items-center px-4 py-2 rounded-pill shadow-sm"
                         onClick={() => setShowPatientForm(true)}
                       >
-                        + Add Patient
+                        <Plus className="me-2" /> Add Patient
                       </Button>
                     </div>
                   </Col>
@@ -71,6 +82,7 @@ function App() {
                 <PatientList
                   onSelect={setSelectedPatient}
                   onEdit={setEditingPatient}
+                  onAdd={() => setShowPatientForm(true)}
                 />
               </>
             )}
@@ -81,29 +93,30 @@ function App() {
               <Col>
                 <div className="d-flex justify-content-between align-items-center">
                   <div>
-                    <Button 
-                      variant="outline-secondary" 
+                    <Button
+                      variant="outline-secondary"
                       className="mb-2"
                       onClick={() => setSelectedPatient(null)}
                     >
                       ← Back to Patients
                     </Button>
-                    <h2 className="mt-2">
+                    <h2 className="mt-2 fw-bold">
                       {selectedPatient.first_name} {selectedPatient.last_name}
                     </h2>
                   </div>
                   {!showRecordForm && !editingRecord && (
-                    <Button 
-                      variant="success" 
+                    <Button
+                      variant="primary"
+                      className="d-flex align-items-center px-4 py-2 rounded-pill shadow-sm"
                       onClick={() => setShowRecordForm(true)}
                     >
-                      + Add Medical Record
+                      <Plus className="me-2" /> Add Medical Record
                     </Button>
                   )}
                 </div>
               </Col>
             </Row>
-            
+
             {showRecordForm || editingRecord ? (
               <div className="mb-4">
                 <MedicalRecordForm
@@ -113,7 +126,7 @@ function App() {
                 />
               </div>
             ) : null}
-            
+
             <MedicalRecordList
               patient={selectedPatient}
               onEdit={setEditingRecord}

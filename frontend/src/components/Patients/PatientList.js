@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Card, Badge, Spinner, Container } from 'react-bootstrap';
+import { Table, Button, Card, Spinner, Container, Row, Col } from 'react-bootstrap';
+import { Eye, PencilSquare, Trash3 } from 'react-bootstrap-icons';
 import api from '../../api';
 
 export default function PatientList({ onSelect, onEdit }) {
@@ -19,69 +20,72 @@ export default function PatientList({ onSelect, onEdit }) {
   };
 
   const deletePatient = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this patient?')) return;
-    
+    if (!window.confirm('Delete this patient?')) return;
+
     try {
       await api.delete(`/patients/${id}`);
-      // Refresh the patient list after deletion
       fetchPatients();
     } catch (error) {
       console.error('Error deleting patient:', error);
-      // You could add error handling UI here
     }
   };
 
   return (
-    <Container fluid className="mt-3">
-      <Card className="shadow-sm">
-        <Card.Header className="bg-primary text-white d-flex justify-content-between align-items-center">
-          <h5 className="mb-0">Patients</h5>
-          <Badge bg="light" text="dark">
-            {patients.length} {patients.length === 1 ? 'Patient' : 'Patients'}
-          </Badge>
-        </Card.Header>
-        <Card.Body>
+    <Container fluid className="py-4 px-3 px-md-5 bg-light min-vh-100">
+
+      <Card className="border-0 shadow-sm rounded-4">
+        <Card.Body className="p-0">
           {loading ? (
-            <div className="text-center p-5">
+            <div className="d-flex flex-column align-items-center justify-content-center py-5">
               <Spinner animation="border" variant="primary" />
-              <p className="mt-2">Loading patients...</p>
+              <div className="mt-3 text-muted">Loading patients...</div>
             </div>
           ) : patients.length === 0 ? (
-            <p className="text-center text-muted my-4">No patients found.</p>
+            <div className="text-center py-5 text-muted fs-5">No patients found.</div>
           ) : (
-            <Table hover responsive className="align-middle">
-              <thead className="table-light">
+            <Table responsive hover className="mb-0">
+              <thead className="bg-white text-secondary border-bottom fs-sm">
                 <tr>
-                  <th>Name</th>
-                  <th className="text-end">Actions</th>
+                  <th className="py-3 px-4">#</th>
+                  <th className="py-3 px-4">Full Name</th>
+                  <th className="py-3 px-4 text-end">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {patients.map(p => (
-                  <tr key={p.id}>
-                    <td>{p.first_name} {p.last_name}</td>
-                    <td className="text-end">
-                      <div className="d-flex justify-content-end gap-2">
-                        <Button 
-                          variant="outline-primary" 
-                          size="sm" 
+                {patients.map((p, index) => (
+                  <tr key={p.id} className="align-middle">
+                    <td className="py-3 px-4 text-muted">{index + 1}</td>
+                    <td className="py-3 px-4 fw-semibold">
+                      {p.first_name} {p.last_name}
+                    </td>
+                    <td className="py-3 px-4 text-end">
+                      <div className="d-inline-flex gap-2">
+                        <Button
+                          variant="light"
+                          size="sm"
+                          className="border shadow-sm"
                           onClick={() => onSelect(p)}
+                          title="View Records"
                         >
-                          View Records
+                          <Eye className="me-1" /> View
                         </Button>
-                        <Button 
-                          variant="outline-secondary" 
+                        <Button
+                          variant="light"
                           size="sm"
+                          className="border shadow-sm"
                           onClick={() => onEdit(p)}
+                          title="Edit Patient"
                         >
-                          Edit
+                          <PencilSquare className="me-1" /> Edit
                         </Button>
-                        <Button 
-                          variant="outline-danger" 
+                        <Button
+                          variant="danger"
                           size="sm"
+                          className="text-white"
                           onClick={() => deletePatient(p.id)}
+                          title="Delete Patient"
                         >
-                          Delete
+                          <Trash3 className="me-1" /> Delete
                         </Button>
                       </div>
                     </td>
